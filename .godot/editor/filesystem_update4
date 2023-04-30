@@ -1,0 +1,8 @@
+res://scenes/globals/main.tscn
+res://scenes/globals/Main.gd
+res://scenes/globals/analitycs/Analytycs.gd
+res://scenes/games/relax/GameRelax.gd
+res://scenes/games/relax/game_relax.tscn
+res://scenes/globals/main_menu.gd
+res://scenes/globals/HUD.gd
+res://scenes/games/relax/hud.tscn

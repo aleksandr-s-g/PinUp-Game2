@@ -1,16 +1,17 @@
 extends Node2D
 signal back_to_menu
+signal send_event
 @onready var Ball = preload("res://scenes/globals/ball.tscn")
 @onready var MapManager = preload("res://scenes/globals/map_manager.tscn")
 @onready var GameSaver = preload("res://scenes/globals/game_saver.tscn")
-@onready var Analytics = preload("res://scenes/globals/analitycs/analitycs.tscn")
+#@onready var Analytics = preload("res://scenes/globals/analitycs/analitycs.tscn")
 var game_bg = preload("res://img/bg_long_clear.png")
 var dir_with_maps = "res://lab_parts_ld/"
 var ball
 var map_manager
 var block_size
 var game_saver
-var analytics
+#var analytics
 var screen_size #= get_viewport().get_visible_rect().size
 var scores = 0
 var loaded_scores = 0
@@ -22,13 +23,14 @@ func add_blocks():
 func _ready():
 	screen_size = get_viewport().get_visible_rect().size
 	map_manager = MapManager.instantiate()
-	analytics = Analytics.instantiate()
+	#analytics = Analytics.instantiate()
+	#analytics = get_node("/root/Main/Analitycs")
 	game_saver = GameSaver.instantiate()
-	add_child(analytics)
+	#add_child(analytics)
 	var loaded_data = game_saver.load_game()
 	if loaded_data:
 		loaded_scores = loaded_data['scores']
-	print ("going_to_game")
+	#print ("going_to_game")
 	var target_bb_size = get_viewport().get_visible_rect().size.x/10
 	block_size = target_bb_size
 	$BackGround.set_texture(game_bg)
@@ -49,7 +51,7 @@ func _ready():
 	ball.transform = Transform2D(0.0, Vector2(target_bb_size*3, get_viewport().get_visible_rect().size.y - target_bb_size))
 	$SwipeDetector.swiped.connect(ball._on_swipe_detector_swiped)
 	add_child(ball)
-	analytics.init_info(screen_size)
+	#analytics.init_info(screen_size)
 	pass # Replace with function body.
 
 
@@ -65,17 +67,23 @@ func _process(delta):
 			game_saver.save_game(save_data)
 			
 			if int(scores+loaded_scores) == 10:
-				analytics.send_event('first_scores','{"scores":"'+str(scores+loaded_scores)+'"}')
+				var event_info = {"scores":scores+loaded_scores}
+				emit_signal('send_event','first_scores',event_info)
+				#analytics.send_event('first_scores','{"scores":"'+str(scores+loaded_scores)+'"}')
 			if scores%100 == 0:
-				analytics.send_event('reach_current_scores','{"scores":"'+str(scores)+'"}')
+				var event_info = {"scores":scores}
+				emit_signal('send_event','reach_current_scores',event_info)
+				#analytics.send_event('reach_current_scores','{"scores":"'+str(scores)+'"}')
 			if int(scores+loaded_scores)%100 == 0:
-				analytics.send_event('reach_global_scores','{"scores":"'+str(scores+loaded_scores)+'"}')
+				var event_info = {"scores":scores+loaded_scores}
+				emit_signal('send_event','reach_global_scores',event_info)
+				#analytics.send_event('reach_global_scores','{"scores":"'+str(scores+loaded_scores)+'"}')
 	$HUD.update_score(scores+loaded_scores)
-	$HUD.update_tester_panel(
-	'FPS: ' +str(Engine.get_frames_per_second())+'\n'+
-	'UID: '+analytics.cur_user_id+'\n'+
-	'Global IP: '+analytics.device_global_ip+'\n'+
-	'All device info: '+JSON.new().stringify(analytics.device_info))
+#	$HUD.update_tester_panel(
+#	'FPS: ' +str(Engine.get_frames_per_second())+'\n'+
+#	'UID: '+analytics.cur_user_id+'\n'+
+#	'Global IP: '+analytics.device_global_ip+'\n'+
+#	'All device info: '+JSON.new().stringify(analytics.device_info))
 	#pass
 
 

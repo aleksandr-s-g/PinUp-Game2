@@ -17,6 +17,6 @@ func _process(delta):
 
 
 func _on_start_button_pressed():
-	print("start_button_pressed")
+	#print("start_button_pressed")
 	emit_signal("start_button_pressed")
 	pass # Replace with function body.

@@ -1,6 +1,67 @@
-[gd_scene load_steps=2 format=3 uid="uid://hantafoo26qx"]
+[gd_scene load_steps=10 format=3 uid="uid://hantafoo26qx"]
 
 [ext_resource type="Script" path="res://scenes/globals/Main.gd" id="1_sn4x0"]
+[ext_resource type="PackedScene" uid="uid://cxgkjveijo7bn" path="res://scenes/globals/analitycs/analitycs.tscn" id="2_3w15y"]
+[ext_resource type="Script" path="res://scenes/globals/HUD.gd" id="3_wykme"]
+[ext_resource type="Texture2D" uid="uid://cc1q30qjwl46y" path="res://img/tester_info.png" id="4_iblw5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_knqqh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jxbkg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0q2gn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lteq7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_52tuq"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_sn4x0")
+
+[node name="Analitycs" parent="." instance=ExtResource("2_3w15y")]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("3_wykme")
+
+[node name="TesterButton" type="Button" parent="HUD"]
+custom_minimum_size = Vector2(150, 150)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/icon_normal_color = Color(0.984314, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_focus_color = Color(1, 0, 0, 0)
+theme_override_colors/icon_disabled_color = Color(1, 0, 0, 0)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_knqqh")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_jxbkg")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_0q2gn")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_lteq7")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_52tuq")
+
+[node name="TesterInfo" type="Label" parent="HUD"]
+visible = false
+anchors_preset = -1
+anchor_left = 0.6
+anchor_top = 0.645
+anchor_right = 0.903
+anchor_bottom = 0.832
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Empty tester panel"
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="HUD/TesterInfo"]
+z_index = -1
+position = Vector2(-38, -2)
+scale = Vector2(0.392578, 0.828125)
+texture = ExtResource("4_iblw5")
+centered = false
+
+[connection signal="pressed" from="HUD/TesterButton" to="HUD" method="_on_tester_button_pressed"]

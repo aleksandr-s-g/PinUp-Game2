@@ -58,7 +58,8 @@ func fill_ip(result, response_code, headers, body):
 	device_global_ip = ip
 	device_info['global_ip'] = device_global_ip
 	#print("Internet IP is: ", ip)
-	send_event('ip_recived', '{"ip":"'+ip +'"}')
+	var event_info = {"ip":ip}
+	send_event('ip_recived', event_info)
 
 func get_device_global_ip():
 	var http = HTTPRequest.new()
@@ -89,14 +90,16 @@ func fill_device_info(screen_size):
 
 
 func send_event(event_name, event_details):
-	print (event_name, ' ', event_details)
+	event_details['current_scene'] = get_node("/root/Main").current_scene_name
+	
 	var http_request = HTTPRequest.new()
 	add_child(http_request)
 	http_request.request_completed.connect(self._http_request_completed)
 	var cur_fps = Engine.get_frames_per_second()   
 	device_info['fps'] = cur_fps
+	print (event_name, ' ', event_details, ' ', device_info)
 	var body = JSON.new().stringify({"event_name": event_name,
-	"event_details": event_details,
+	"event_details": JSON.new().stringify(event_details),
 	"device_info":JSON.new().stringify(device_info),
 	"user_info":cur_user_id})
 	#● Error request(url: String, custom_headers: PackedStringArray = PackedStringArray(), method: Method = 0, request_data: String = "")
@@ -106,16 +109,13 @@ func send_event(event_name, event_details):
 	pass
 
 func init_info(screen_size):
+	pass
+
+func _ready():
 	print(OS.get_user_data_dir())
 	#send_event('alaunch', '{}')
 	#print(uuid_util.v4())
-	fill_device_info(screen_size)
-
-func _ready():
-	#print(OS.get_user_data_dir())
-	#send_event('alaunch', '{}')
-	#print(uuid_util.v4())
-	#fill_device_info()
+	fill_device_info(get_viewport().get_visible_rect().size)
 	pass
 	# Create an HTTP request node and connect its completion signal.
 	
@@ -136,7 +136,9 @@ func _http_request_completed(result, response_code, headers, body):
 
 
 func _on_hud_become_tester():
-	is_tester = true
-	device_info['is_tester'] = is_tester
-	save_user_info() 
-	send_event('open_test_panel', '{}')
+	if !is_tester:
+		is_tester = true
+		device_info['is_tester'] = is_tester
+		save_user_info() 
+		send_event('become_tester', {})
+
