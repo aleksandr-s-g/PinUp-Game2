@@ -1,8 +1,10 @@
 extends Node2D
 @onready var MainMenu = preload("res://scenes/globals/main_menu.tscn")
 @onready var GameRelax = preload("res://scenes/games/relax/game_relax.tscn")
+@onready var GameMind = preload("res://scenes/games/mind/game_mind.tscn")
 var main_menu
 var game_relax
+var game_mind
 var current_scene_name
 # Called when the node enters the scene tree for the first time.
 
@@ -14,6 +16,11 @@ func init_game_relax():
 	game_relax = GameRelax.instantiate()
 	game_relax.connect("back_to_menu", _on_game_back_to_menu)
 	game_relax.connect("send_event", $Analitycs.send_event)
+	
+func init_game_mind():
+	game_mind = GameMind.instantiate()
+	game_mind.connect("back_to_menu", _on_game_back_to_menu)
+	game_mind.connect("send_event", $Analitycs.send_event)
 	
 func select_scene(new_scene):
 	#print(new_scene.name)
@@ -45,11 +52,11 @@ func _process(delta):
 
 
 func _on_main_menu_start_button_pressed():
-	#print("go!")
-	init_game_relax()
-	select_scene(game_relax)
-	#get_tree().change_scene($GameRelax)
-	#get_tree().change_scene_to_packed($GameRelax)
+	init_game_mind()
+	select_scene(game_mind)
+	#init_game_relax()
+	#select_scene(game_relax)
+
 	pass # Replace with function body.
 	
 func _on_game_back_to_menu():

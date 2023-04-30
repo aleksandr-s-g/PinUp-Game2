@@ -1,0 +1,108 @@
+[gd_scene load_steps=9 format=3 uid="uid://5ynumhg06cga"]
+
+[ext_resource type="Script" path="res://scenes/games/relax/HUD.gd" id="1_k33oh"]
+[ext_resource type="FontFile" uid="uid://dw5ybdvspss5d" path="res://fonts/Xolonium-Regular.ttf" id="2_hunwy"]
+[ext_resource type="Texture2D" uid="uid://qrrrlvty7wv3" path="res://img/points.png" id="3_30jhc"]
+[ext_resource type="Texture2D" uid="uid://cc1q30qjwl46y" path="res://img/tester_info.png" id="4_l5rhi"]
+[ext_resource type="StyleBox" uid="uid://x1skeryxlci6" path="res://styles/back_btn.tres" id="5_lii1x"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hgu8m"]
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q37q3"]
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yfpq1"]
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_k33oh")
+
+[node name="ScoreLabel" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -248.0
+offset_bottom = 120.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_hunwy")
+theme_override_font_sizes/font_size = 64
+text = "0"
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="ScoreLabel"]
+z_index = -1
+position = Vector2(208, 64)
+texture = ExtResource("3_30jhc")
+
+[node name="Message" type="Label" parent="."]
+visible = false
+anchors_preset = -1
+anchor_left = 0.296
+anchor_top = 0.48
+anchor_right = 0.296
+anchor_bottom = 0.48
+offset_left = -3.0
+offset_top = -0.500038
+offset_right = 411.0
+offset_bottom = 80.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_hunwy")
+theme_override_font_sizes/font_size = 64
+text = "PinUp Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="Message"]
+z_index = -1
+position = Vector2(-1421, -79.5)
+scale = Vector2(3.23438, 0.46875)
+texture = ExtResource("4_l5rhi")
+centered = false
+
+[node name="StartButton" type="Button" parent="."]
+visible = false
+anchors_preset = -1
+anchor_left = 0.296
+anchor_top = 0.849
+anchor_right = 0.692
+anchor_bottom = 0.942
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_hunwy")
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxFlat_hgu8m")
+theme_override_styles/hover = SubResource("StyleBoxFlat_q37q3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_yfpq1")
+text = "Start"
+
+[node name="MessageTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="BackButton" type="Button" parent="."]
+offset_right = 8.0
+offset_bottom = 8.0
+theme_override_styles/normal = ExtResource("5_lii1x")
+theme_override_styles/hover = ExtResource("5_lii1x")
+theme_override_styles/pressed = ExtResource("5_lii1x")
+theme_override_styles/disabled = ExtResource("5_lii1x")
+theme_override_styles/focus = ExtResource("5_lii1x")
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+position = Vector2i(500, 500)
+
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]

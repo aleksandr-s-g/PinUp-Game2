@@ -97,7 +97,7 @@ func send_event(event_name, event_details):
 	http_request.request_completed.connect(self._http_request_completed)
 	var cur_fps = Engine.get_frames_per_second()   
 	device_info['fps'] = cur_fps
-	print (event_name, ' ', event_details, ' ', device_info)
+	print (event_name, ' ', event_details)#, ' ', device_info)
 	var body = JSON.new().stringify({"event_name": event_name,
 	"event_details": JSON.new().stringify(event_details),
 	"device_info":JSON.new().stringify(device_info),
@@ -112,7 +112,7 @@ func init_info(screen_size):
 	pass
 
 func _ready():
-	print(OS.get_user_data_dir())
+	#print(OS.get_user_data_dir())
 	#send_event('alaunch', '{}')
 	#print(uuid_util.v4())
 	fill_device_info(get_viewport().get_visible_rect().size)

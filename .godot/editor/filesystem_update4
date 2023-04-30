@@ -6,3 +6,5 @@ res://scenes/games/relax/game_relax.tscn
 res://scenes/globals/main_menu.gd
 res://scenes/globals/HUD.gd
 res://scenes/games/relax/hud.tscn
+res://scenes/games/mind/game_mind.tscn
+res://scenes/games/mind/GameMind.gd
