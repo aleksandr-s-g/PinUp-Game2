@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://dlpovlvopcjkw"]
+
+[ext_resource type="Script" path="res://scenes/globals/ball.gd" id="1_nm0jn"]
+[ext_resource type="Texture2D" uid="uid://ex7yeec0oysp" path="res://img/ball.png" id="1_vysvs"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2bhfy"]
+radius = 72.0
+
+[node name="Ball" type="RigidBody2D"]
+gravity_scale = 2.66454e-15
+custom_integrator = true
+lock_rotation = true
+angular_damp = 100.0
+script = ExtResource("1_nm0jn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_2bhfy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_vysvs")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_left = 0
+position_smoothing_enabled = true

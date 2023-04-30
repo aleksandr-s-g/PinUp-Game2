@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxgkjveijo7bn"]
+
+[ext_resource type="Script" path="res://scenes/globals/analitycs/Analytycs.gd" id="1_e3j4k"]
+
+[node name="Analitycs" type="HTTPRequest"]
+script = ExtResource("1_e3j4k")

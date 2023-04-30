@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dp771snga3yed"]
+
+[ext_resource type="Script" path="res://scenes/globals/MapManager.gd" id="1_tvdli"]
+
+[node name="MapManager" type="Node"]
+script = ExtResource("1_tvdli")

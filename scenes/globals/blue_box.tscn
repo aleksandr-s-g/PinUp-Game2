@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://r3fh0lb61ily"]
+
+[ext_resource type="Texture2D" uid="uid://b567dp4wdqkh1" path="res://img/blue3.png" id="1_1agr1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pk1ih"]
+resource_local_to_scene = true
+size = Vector2(512, 512)
+
+[node name="StaticBody2D" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_1agr1")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(256, 256)
+shape = SubResource("RectangleShape2D_pk1ih")
+one_way_collision_margin = 0.0

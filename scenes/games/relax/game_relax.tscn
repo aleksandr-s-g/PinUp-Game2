@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://b4iksls8ewpl1"]
+
+[ext_resource type="Script" path="res://scenes/games/relax/GameRelax.gd" id="1_rg02n"]
+[ext_resource type="PackedScene" uid="uid://fuu0503do1ad" path="res://scenes/games/relax/hud.tscn" id="2_tewg0"]
+[ext_resource type="PackedScene" uid="uid://ben0t3f5wws7j" path="res://scenes/globals/swipe_detector.tscn" id="3_vo3fw"]
+
+[node name="GameRelax" type="Node2D"]
+script = ExtResource("1_rg02n")
+
+[node name="HUD" parent="." instance=ExtResource("2_tewg0")]
+
+[node name="BackGround" type="Sprite2D" parent="."]
+centered = false
+
+[node name="SwipeDetector" parent="." instance=ExtResource("3_vo3fw")]
+
+[connection signal="back_to_menu" from="HUD" to="." method="_on_hud_back_to_menu"]
