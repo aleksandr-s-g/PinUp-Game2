@@ -1,0 +1,125 @@
+[gd_scene load_steps=11 format=3 uid="uid://cpay5o3gk8dex"]
+
+[ext_resource type="Script" path="res://scenes/games/race/HUD.gd" id="1_73xsi"]
+[ext_resource type="FontFile" uid="uid://dw5ybdvspss5d" path="res://fonts/Xolonium-Regular.ttf" id="2_sp6pb"]
+[ext_resource type="Texture2D" uid="uid://qrrrlvty7wv3" path="res://img/points.png" id="3_o5pow"]
+[ext_resource type="Texture2D" uid="uid://cc1q30qjwl46y" path="res://img/tester_info.png" id="4_nvnlc"]
+[ext_resource type="Texture2D" uid="uid://b51q6ykprhywx" path="res://img/back2.png" id="5_4i0d7"]
+[ext_resource type="StyleBox" uid="uid://x1skeryxlci6" path="res://styles/back_btn.tres" id="5_m3jal"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hgu8m"]
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q37q3"]
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yfpq1"]
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5833k"]
+texture = ExtResource("5_4i0d7")
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_73xsi")
+
+[node name="Scores" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(1085, 64)
+texture = ExtResource("3_o5pow")
+
+[node name="ScoreLabel" type="Label" parent="Scores"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -789.0
+offset_top = -78.0
+offset_right = -541.0
+offset_bottom = 42.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_sp6pb")
+theme_override_font_sizes/font_size = 64
+text = "0"
+vertical_alignment = 1
+
+[node name="BestScoreLabel" type="Label" parent="Scores"]
+offset_left = -205.0
+offset_top = 15.0
+offset_right = -124.0
+offset_bottom = 53.0
+theme_override_font_sizes/font_size = 25
+text = "Best: 0"
+
+[node name="Message" type="Label" parent="."]
+visible = false
+anchors_preset = -1
+anchor_left = 0.296
+anchor_top = 0.48
+anchor_right = 0.296
+anchor_bottom = 0.48
+offset_left = -3.0
+offset_top = -0.500038
+offset_right = 411.0
+offset_bottom = 80.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_sp6pb")
+theme_override_font_sizes/font_size = 64
+text = "PinUp Game
+str2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="Message"]
+z_index = -1
+position = Vector2(-1421, -79.5)
+scale = Vector2(3.23438, 0.613711)
+texture = ExtResource("4_nvnlc")
+centered = false
+
+[node name="StartButton" type="Button" parent="."]
+visible = false
+anchors_preset = -1
+anchor_left = 0.296
+anchor_top = 0.849
+anchor_right = 0.692
+anchor_bottom = 0.942
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_sp6pb")
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxFlat_hgu8m")
+theme_override_styles/hover = SubResource("StyleBoxFlat_q37q3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_yfpq1")
+text = "Start"
+
+[node name="MessageTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="BackButton" type="Button" parent="."]
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 58.0
+offset_bottom = 58.0
+theme_override_styles/normal = SubResource("StyleBoxTexture_5833k")
+theme_override_styles/hover = ExtResource("5_m3jal")
+theme_override_styles/pressed = ExtResource("5_m3jal")
+theme_override_styles/disabled = ExtResource("5_m3jal")
+theme_override_styles/focus = ExtResource("5_m3jal")
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+position = Vector2i(500, 500)
+
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]

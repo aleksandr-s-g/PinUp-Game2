@@ -53,7 +53,8 @@ func _on_tester_button_pressed():
 
 
 func _on_back_button_pressed():
-	$ConfirmationDialog.show()
+	#$ConfirmationDialog.show()
+	emit_signal("back_to_menu")
 	pass # Replace with function body.
 
 

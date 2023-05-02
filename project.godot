@@ -10,15 +10,17 @@ config_version=5
 
 [application]
 
-config/name="PinUp Game"
+config/name="PinUp"
 run/main_scene="res://scenes/globals/main.tscn"
 config/features=PackedStringArray("4.0", "Mobile")
-config/icon="res://icon.svg"
+boot_splash/show_image=false
+boot_splash/image="res://img/bg_long.png"
+config/icon="res://AppIcon.appiconset/1024.png"
 
 [display]
 
-window/size/viewport_width=1000
-window/size/viewport_height=2000
+window/size/viewport_width=1125
+window/size/viewport_height=2436
 window/handheld/orientation=1
 
 [input]

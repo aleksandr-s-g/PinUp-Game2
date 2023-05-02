@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://hantafoo26qx"]
+[gd_scene load_steps=11 format=3 uid="uid://hantafoo26qx"]
 
 [ext_resource type="Script" path="res://scenes/globals/Main.gd" id="1_sn4x0"]
 [ext_resource type="PackedScene" uid="uid://cxgkjveijo7bn" path="res://scenes/globals/analitycs/analitycs.tscn" id="2_3w15y"]
 [ext_resource type="Script" path="res://scenes/globals/HUD.gd" id="3_wykme"]
 [ext_resource type="Texture2D" uid="uid://cc1q30qjwl46y" path="res://img/tester_info.png" id="4_iblw5"]
+[ext_resource type="Texture2D" uid="uid://bfynthc40tynj" path="res://img/bg_long.png" id="5_mcqxy"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_knqqh"]
 
@@ -22,6 +23,12 @@ script = ExtResource("1_sn4x0")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 script = ExtResource("3_wykme")
+
+[node name="BackGround" type="Sprite2D" parent="HUD"]
+show_behind_parent = true
+z_index = -2
+texture = ExtResource("5_mcqxy")
+centered = false
 
 [node name="TesterButton" type="Button" parent="HUD"]
 custom_minimum_size = Vector2(150, 150)

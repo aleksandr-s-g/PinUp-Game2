@@ -1,1 +1,7 @@
+Sprite2D
+Label
 CanvasLayer
+HBoxContainer
+CheckBox
+VBoxContainer
+ItemList

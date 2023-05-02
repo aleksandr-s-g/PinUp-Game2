@@ -18,5 +18,12 @@ func _process(delta):
 
 func _on_start_button_pressed():
 	#print("start_button_pressed")
-	emit_signal("start_button_pressed")
+	var mode  = ''
+	if $HUD/GameTypes/RelaxGame.is_pressed():
+		mode = 'relax'
+	if $HUD/GameTypes/MindGame.is_pressed():
+		mode = 'mind'
+	if $HUD/GameTypes/Race.is_pressed():
+		mode = 'race'
+	emit_signal("start_button_pressed", mode)
 	pass # Replace with function body.

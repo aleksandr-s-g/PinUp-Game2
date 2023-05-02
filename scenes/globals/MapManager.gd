@@ -55,6 +55,7 @@ func read_json_lab_part(dir_with_maps):
 	var json_string = lab_part_file.get_line()
 	var json_object = JSON.new()
 	json_object.parse(json_string)
+	print('loading ',lab_part_random_file_name)
 	return json_object.get_data()
 
 func create_block(pos, colour, screen_size):

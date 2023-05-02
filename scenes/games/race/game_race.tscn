@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://t3mrp2py8yyi"]
+
+[ext_resource type="Script" path="res://scenes/games/race/GameRace.gd" id="1_nhbto"]
+[ext_resource type="PackedScene" uid="uid://cpay5o3gk8dex" path="res://scenes/games/race/hud.tscn" id="2_0qs7b"]
+[ext_resource type="PackedScene" uid="uid://ben0t3f5wws7j" path="res://scenes/globals/swipe_detector.tscn" id="3_hmlk4"]
+
+[node name="GameRace" type="Node2D"]
+script = ExtResource("1_nhbto")
+
+[node name="HUD" parent="." instance=ExtResource("2_0qs7b")]
+
+[node name="BackGround" type="Sprite2D" parent="."]
+centered = false
+
+[node name="SwipeDetector" parent="." instance=ExtResource("3_hmlk4")]
+
+[connection signal="back_to_menu" from="HUD" to="." method="_on_hud_back_to_menu"]

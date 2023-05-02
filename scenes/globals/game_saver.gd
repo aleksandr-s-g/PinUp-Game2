@@ -1,10 +1,45 @@
 extends Node2D
 
-var loaded_scores
+var loaded_game = {}
 
-func save_game(save_data):
+
+func set_relax_scores(new_scores):
+	loaded_game['relax_scores'] = new_scores
+	save_game()
+
+func set_mind_scores(new_scores):
+	loaded_game['mind_scores'] = new_scores
+	save_game()
+
+func set_race_scores(new_scores):
+	loaded_game['race_scores'] = new_scores
+	save_game()
+
+func get_relax_scores():
+	load_game()
+	if 'relax_scores' not in loaded_game:
+		loaded_game['relax_scores'] = 0
+		save_game()
+	return loaded_game['relax_scores']
+	
+	
+func get_mind_scores():
+	load_game()
+	if 'mind_scores' not in loaded_game:
+		loaded_game['mind_scores'] = 0
+		save_game()
+	return loaded_game['mind_scores']
+
+func get_race_scores():
+	load_game()
+	if 'race_scores' not in loaded_game:
+		loaded_game['race_scores'] = 0
+		save_game()
+	return loaded_game['race_scores']
+
+func save_game():
 	var save_game = FileAccess.open("user://savegame.save", FileAccess.WRITE)
-	var node_data =save_data
+	var node_data = loaded_game
 	var json_string = JSON.stringify(node_data)
 
 		# Store the save dictionary as a new line in the save file.
@@ -34,9 +69,8 @@ func load_game():
 
 		# Get the data from the JSON object
 		var node_data = json.get_data()
-		loaded_scores = node_data['scores']
-		return node_data
-	return {'scores':0}
+		#loaded_scores = node_data['scores']
+		loaded_game = node_data
 		# Firstly, we need to create the object and add it to the tree and set its position.
 		
 

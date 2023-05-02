@@ -6,7 +6,7 @@ signal send_event
 @onready var GameSaver = preload("res://scenes/globals/game_saver.tscn")
 #@onready var Analytics = preload("res://scenes/globals/analitycs/analitycs.tscn")
 var game_bg = preload("res://img/bg_long_clear.png")
-var dir_with_maps = "res://lab_parts_ld/"
+var dir_with_maps = "res://lab_parts_ld/mind/"
 var ball
 var map_manager
 var block_size
@@ -27,9 +27,11 @@ func _ready():
 	#analytics = get_node("/root/Main/Analitycs")
 	game_saver = GameSaver.instantiate()
 	#add_child(analytics)
-	var loaded_data = game_saver.load_game()
-	if loaded_data:
-		loaded_scores = loaded_data['scores']
+#	var loaded_data = game_saver.load_game()
+#	if loaded_data:
+#		if 'mind_scores' in loaded_data:
+#			loaded_scores = loaded_data['mind_scores']
+	loaded_scores = game_saver.get_mind_scores()
 	#print ("going_to_game")
 	var target_bb_size = get_viewport().get_visible_rect().size.x/10
 	block_size = target_bb_size
@@ -48,7 +50,7 @@ func _ready():
 	var ball_size = ball.get_node('Sprite2D').get_rect().size.x
 	var s = target_bb_size/ball_size
 	ball.set_ball_scale(s)
-	ball.transform = Transform2D(0.0, Vector2(target_bb_size*3, get_viewport().get_visible_rect().size.y - target_bb_size))
+	ball.transform = Transform2D(0.0, Vector2(target_bb_size*3.5, get_viewport().get_visible_rect().size.y - target_bb_size*0.5))
 	$SwipeDetector.swiped.connect(ball._on_swipe_detector_swiped)
 	add_child(ball)
 	#analytics.init_info(screen_size)
@@ -61,10 +63,11 @@ func _process(delta):
 		#print(ball.position.y)
 		if ball.position.y < get_viewport().get_visible_rect().size.y-(map_manager.cur_lab_loaded_level-20)*block_size:
 			add_blocks()
-		if -ball.position.y > scores*block_size-screen_size.y:#get_viewport().get_visible_rect().size.y-cur_lab_loaded_level*cell_size:
+		if -ball.position.y > (scores+1)*block_size-screen_size.y:#get_viewport().get_visible_rect().size.y-cur_lab_loaded_level*cell_size:
 			scores+=1
-			var save_data = {"scores":loaded_scores+scores}
-			game_saver.save_game(save_data)
+#			var save_data = {"mind_scores":loaded_scores+scores}
+#			game_saver.save_game(save_data)
+			game_saver.set_mind_scores(loaded_scores+scores)
 			
 			if int(scores+loaded_scores) == 10:
 				var event_info = {"scores":scores+loaded_scores}
