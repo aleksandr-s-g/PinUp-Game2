@@ -4,9 +4,10 @@ signal send_event
 @onready var Ball = preload("res://scenes/globals/ball.tscn")
 @onready var MapManager = preload("res://scenes/globals/map_manager.tscn")
 @onready var GameSaver = preload("res://scenes/globals/game_saver.tscn")
+
 #@onready var Analytics = preload("res://scenes/globals/analitycs/analitycs.tscn")
 var game_bg = preload("res://img/bg_long_clear.png")
-var dir_with_maps = "res://lab_parts_ld/relax/"
+var dir_with_maps = "res://lab_parts_ld/coin_relax/"
 var ball
 var map_manager
 var block_size
@@ -15,9 +16,25 @@ var game_saver
 var screen_size #= get_viewport().get_visible_rect().size
 var scores = 0
 var loaded_scores = 0
+var coins = 0
+var loaded_coins = 0
+var level_labels = []
+var tester_visibility = false
+
+func set_tester_visibility(state):
+	tester_visibility = state
+
 # Called when the node enters the scene tree for the first time.
 func add_blocks():
-	for b in map_manager.load_next_lab_part(screen_size, dir_with_maps):
+	var new_lab_part = map_manager.load_next_lab_part(screen_size, dir_with_maps)
+	for b in new_lab_part['blocks']:
+		add_child(b)
+	for b in new_lab_part['coins']:
+		b.collected.connect(_on_collect_coin)
+		add_child(b)
+	for b in new_lab_part['labels']:
+		b.visible = tester_visibility
+		level_labels.append(b)
 		add_child(b)
 
 func _ready():
@@ -28,6 +45,8 @@ func _ready():
 	game_saver = GameSaver.instantiate()
 	#add_child(analytics)
 	loaded_scores = game_saver.get_relax_scores()
+	loaded_coins = game_saver.get_coins()
+	$HUD.update_coins(coins+loaded_coins)
 #	var loaded_data = game_saver.load_game()
 #	if loaded_data:
 #		if 'relax_scores' in loaded_data:
@@ -53,6 +72,7 @@ func _ready():
 	ball.transform = Transform2D(0.0, Vector2(target_bb_size*3.5, get_viewport().get_visible_rect().size.y - target_bb_size*0.5))
 	$SwipeDetector.swiped.connect(ball._on_swipe_detector_swiped)
 	add_child(ball)
+
 	#analytics.init_info(screen_size)
 	pass # Replace with function body.
 
@@ -81,6 +101,7 @@ func _process(delta):
 				var event_info = {"scores":scores+loaded_scores}
 				emit_signal('send_event','reach_global_scores',event_info)
 				#analytics.send_event('reach_global_scores','{"scores":"'+str(scores+loaded_scores)+'"}')
+		#print(round(ball.position.y), ', ',get_viewport_transform().affine_inverse().get_origin().y)
 	$HUD.update_score(scores+loaded_scores)
 #	$HUD.update_tester_panel(
 #	'FPS: ' +str(Engine.get_frames_per_second())+'\n'+
@@ -89,7 +110,21 @@ func _process(delta):
 #	'All device info: '+JSON.new().stringify(analytics.device_info))
 	#pass
 
+func _on_collect_coin():
+	coins = coins + 1
+	print(coins, ' coin collected!')
+	game_saver.set_coins(coins+loaded_coins)
+	$HUD.update_coins(coins+loaded_coins)
+	pass
 
 func _on_hud_back_to_menu():
 	emit_signal("back_to_menu")
+	pass # Replace with function body.
+
+
+func _on_hud_set_tester_info_visibility(state):
+	#print ()
+	tester_visibility = state
+	for l in level_labels:
+		l.visible = state
 	pass # Replace with function body.

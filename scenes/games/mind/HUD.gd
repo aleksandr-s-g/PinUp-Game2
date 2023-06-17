@@ -19,6 +19,9 @@ func show_message(text):
 	
 func show_scores():
 	$ScoreLabel.show()
+	
+func update_coins(coins):
+	$CoinLabel.text = str(coins)
 
 func update_tester_panel(text):
 	$TesterInfo.text = text

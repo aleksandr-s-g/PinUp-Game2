@@ -14,4 +14,12 @@ centered = false
 
 [node name="SwipeDetector" parent="." instance=ExtResource("3_hmlk4")]
 
+[node name="StartTimer" type="Timer" parent="."]
+
+[node name="LoseTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="back_to_menu" from="HUD" to="." method="_on_hud_back_to_menu"]
+[connection signal="relife" from="HUD" to="." method="_on_hud_relife"]
+[connection signal="restart" from="HUD" to="." method="_on_hud_restart"]
+[connection signal="timeout" from="LoseTimer" to="." method="_on_lose"]

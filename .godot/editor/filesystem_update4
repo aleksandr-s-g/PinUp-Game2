@@ -1,6 +1,7 @@
-res://scenes/games/mind/game_mind.tscn
 res://scenes/globals/main_menu_game_type_group.tres
-res://scenes/games/race/GameRace.gd
+res://scenes/globals/level_label.tscn
+res://scenes/games/relax/GameRelax.gd
+res://scenes/games/mind/game_mind.tscn
 res://scenes/globals/main.tscn
 res://scenes/globals/main_menu.tscn
 res://scenes/globals/game_saver.tscn
@@ -8,6 +9,13 @@ res://scenes/globals/map_manager.tscn
 res://scenes/games/race/hud.tscn
 res://scenes/games/race/game_race.tscn
 res://scenes/globals/ball.tscn
+res://scenes/globals/coin.tscn
 res://scenes/games/relax/hud.tscn
-res://scenes/games/mind/hud.tscn
+res://scenes/globals/swipe_detector.tscn
+res://scenes/globals/MapManager.gd
+res://scenes/games/relax/HUD.gd
+res://scenes/games/relax/game_relax.tscn
+res://scenes/globals/HUD.gd
 res://scenes/globals/Main.gd
+res://scenes/games/race/GameRace.gd
+res://scenes/games/mind/GameMind.gd

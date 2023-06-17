@@ -7,3 +7,7 @@ script = ExtResource("1_itqmf")
 
 [node name="SwipeTimeout" type="Timer" parent="."]
 one_shot = true
+
+[node name="DoubleTapTimeout" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true

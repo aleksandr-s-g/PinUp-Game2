@@ -2,6 +2,9 @@ extends Node2D
 
 var loaded_game = {}
 
+func set_coins(new_coins):
+	loaded_game['coins'] = new_coins
+	save_game()
 
 func set_relax_scores(new_scores):
 	loaded_game['relax_scores'] = new_scores
@@ -14,6 +17,13 @@ func set_mind_scores(new_scores):
 func set_race_scores(new_scores):
 	loaded_game['race_scores'] = new_scores
 	save_game()
+
+func get_coins():
+	load_game()
+	if 'coins' not in loaded_game:
+		loaded_game['coins'] = 0
+		save_game()
+	return loaded_game['coins']
 
 func get_relax_scores():
 	load_game()

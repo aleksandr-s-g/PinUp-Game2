@@ -6,7 +6,7 @@ signal send_event
 @onready var GameSaver = preload("res://scenes/globals/game_saver.tscn")
 #@onready var Analytics = preload("res://scenes/globals/analitycs/analitycs.tscn")
 var game_bg = preload("res://img/bg_long_clear.png")
-var dir_with_maps = "res://lab_parts_ld/mind/"
+var dir_with_maps = "res://lab_parts_ld/coin_mind/"
 var ball
 var map_manager
 var block_size
@@ -15,9 +15,27 @@ var game_saver
 var screen_size #= get_viewport().get_visible_rect().size
 var scores = 0
 var loaded_scores = 0
+var coins = 0
+var loaded_coins = 0
+# Called when the node enters the scene tree for the first time.
+var level_labels = []
+# Called when the node enters the scene tree for the first time.
+var tester_visibility = false
+
+func set_tester_visibility(state):
+	tester_visibility = state
+
 # Called when the node enters the scene tree for the first time.
 func add_blocks():
-	for b in map_manager.load_next_lab_part(screen_size, dir_with_maps):
+	var new_lab_part = map_manager.load_next_lab_part(screen_size, dir_with_maps)
+	for b in new_lab_part['blocks']:
+		add_child(b)
+	for b in new_lab_part['coins']:
+		b.collected.connect(_on_collect_coin)
+		add_child(b)
+	for b in new_lab_part['labels']:
+		b.visible = tester_visibility
+		level_labels.append(b)
 		add_child(b)
 
 func _ready():
@@ -32,6 +50,8 @@ func _ready():
 #		if 'mind_scores' in loaded_data:
 #			loaded_scores = loaded_data['mind_scores']
 	loaded_scores = game_saver.get_mind_scores()
+	loaded_coins = game_saver.get_coins()
+	$HUD.update_coins(coins+loaded_coins)
 	#print ("going_to_game")
 	var target_bb_size = get_viewport().get_visible_rect().size.x/10
 	block_size = target_bb_size
@@ -88,8 +108,21 @@ func _process(delta):
 #	'Global IP: '+analytics.device_global_ip+'\n'+
 #	'All device info: '+JSON.new().stringify(analytics.device_info))
 	#pass
-
+	
+func _on_collect_coin():
+	coins = coins + 1
+	print(coins, ' coin collected!')
+	game_saver.set_coins(coins+loaded_coins)
+	$HUD.update_coins(coins+loaded_coins)
+	pass
 
 func _on_hud_back_to_menu():
 	emit_signal("back_to_menu")
+	pass # Replace with function body.
+
+func _on_hud_set_tester_info_visibility(state):
+	#print ()
+	tester_visibility = state
+	for l in level_labels:
+		l.visible = state
 	pass # Replace with function body.

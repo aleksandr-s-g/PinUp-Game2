@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://fuu0503do1ad"]
+[gd_scene load_steps=10 format=3 uid="uid://fuu0503do1ad"]
 
 [ext_resource type="Script" path="res://scenes/games/relax/HUD.gd" id="1_vurjm"]
 [ext_resource type="FontFile" uid="uid://dw5ybdvspss5d" path="res://fonts/Xolonium-Regular.ttf" id="2_1bp7n"]
 [ext_resource type="Texture2D" uid="uid://qrrrlvty7wv3" path="res://img/points.png" id="3_2cs02"]
 [ext_resource type="Texture2D" uid="uid://cc1q30qjwl46y" path="res://img/tester_info.png" id="4_mnkmb"]
 [ext_resource type="StyleBox" uid="uid://x1skeryxlci6" path="res://styles/back_btn.tres" id="5_1jg5f"]
+[ext_resource type="Texture2D" uid="uid://dsqiv4kc5gdmc" path="res://img/coin.png" id="6_p1gwa"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hgu8m"]
 corner_radius_top_left = 50
@@ -103,6 +104,23 @@ theme_override_styles/focus = ExtResource("5_1jg5f")
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
 position = Vector2i(500, 500)
+
+[node name="CoinLabel" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -191.0
+offset_top = 145.0
+offset_right = 152.0
+offset_bottom = 236.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 64
+text = "0"
+
+[node name="Sprite2D" type="Sprite2D" parent="CoinLabel"]
+position = Vector2(-35, 48)
+scale = Vector2(0.107422, 0.107422)
+texture = ExtResource("6_p1gwa")
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]

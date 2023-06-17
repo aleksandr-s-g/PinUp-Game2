@@ -3,7 +3,9 @@ const uuid_util = preload('res://scenes/globals/analitycs/uuid.gd')
 var device_info = {}
 var cur_user_id = ''
 var device_global_ip = '0.0.0.0'
+var app_version = '1.1'
 var is_tester = false
+var coins = 0
 
 func save_user_info():
 	var save_user_info_file = FileAccess.open("user://user_info.save", FileAccess.WRITE)
@@ -13,6 +15,24 @@ func save_user_info():
 	var json_string = JSON.stringify(node_data)
 		# Store the save dictionary as a new line in the save file.
 	save_user_info_file.store_line(json_string)
+
+func load_game_info():
+	if not FileAccess.file_exists("user://savegame.save"):
+		return # Error! We don't have a save to load.
+	var save_game_info = FileAccess.open("user://savegame.save", FileAccess.READ)
+	while save_game_info.get_position() < save_game_info.get_length():
+		var json_string = save_game_info.get_line()
+		# Creates the helper class to interact with JSON
+		var json = JSON.new()
+		# Check if there is any error while parsing the JSON string, skip in case of failure
+		var parse_result = json.parse(json_string)
+		if not parse_result == OK:
+			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+			continue
+		# Get the data from the JSON object
+		var node_data = json.get_data()
+		if 'coins' in node_data:
+			coins = node_data['coins']
 
 
 func load_user_info():
@@ -29,16 +49,13 @@ func load_user_info():
 	var save_user_info = FileAccess.open("user://user_info.save", FileAccess.READ)
 	while save_user_info.get_position() < save_user_info.get_length():
 		var json_string = save_user_info.get_line()
-
 		# Creates the helper class to interact with JSON
 		var json = JSON.new()
-
 		# Check if there is any error while parsing the JSON string, skip in case of failure
 		var parse_result = json.parse(json_string)
 		if not parse_result == OK:
 			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
 			continue
-
 		# Get the data from the JSON object
 		var node_data = json.get_data()
 		if 'user_id' in node_data:
@@ -70,6 +87,7 @@ func get_device_global_ip():
 
 
 func fill_device_info(screen_size):
+	load_game_info()
 	load_user_info()
 	get_device_global_ip()
 	device_info = {
@@ -86,10 +104,14 @@ func fill_device_info(screen_size):
 	device_info['user_id'] = cur_user_id
 	device_info['global_ip'] = device_global_ip
 	device_info['is_tester'] = is_tester
-
+	device_info['app_version'] = app_version
+	device_info['coins'] = coins
 
 
 func send_event(event_name, event_details):
+	load_game_info()
+	device_info['coins'] = coins
+	
 	event_details['current_scene'] = get_node("/root/Main").current_scene_name
 	
 	var http_request = HTTPRequest.new()
@@ -103,7 +125,7 @@ func send_event(event_name, event_details):
 	"device_info":JSON.new().stringify(device_info),
 	"user_info":cur_user_id})
 	#● Error request(url: String, custom_headers: PackedStringArray = PackedStringArray(), method: Method = 0, request_data: String = "")
-	var status = http_request.request("http://asgavril.ru/stat/log_event.php", [], HTTPClient.METHOD_POST, body)
+	var status = http_request.request("https://asgavril.ru/stat/log_event.php", [], HTTPClient.METHOD_POST, body)
 	if status != OK:
 		push_error("An error occurred in the HTTP request.")
 	pass

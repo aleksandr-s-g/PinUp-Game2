@@ -3,6 +3,7 @@ var tester_button_pressed_times = [0,0,0,0,0,0,0,0,0,0]
 signal send_event
 signal become_tester
 var analytics
+signal set_tester_info_visibility(state)
 
 func update_tester_panel(text):
 	$TesterInfo.text = text
@@ -15,6 +16,7 @@ func _on_tester_button_pressed():
 	if last_clicks_lag < 2.0:
 		$TesterInfo.visible = !$TesterInfo.visible
 		tester_button_pressed_times = [0,0,0,0,0,0,0,0,0,0]
+		emit_signal("set_tester_info_visibility", $TesterInfo.visible)
 		if $TesterInfo.visible:
 			emit_signal("send_event","open_tester_panel", {})
 			emit_signal("become_tester")

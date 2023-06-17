@@ -2,6 +2,8 @@ extends CanvasLayer
 signal start_game
 signal become_tester
 signal back_to_menu
+signal restart
+signal relife
 var tester_button_pressed_times = [0,0,0,0,0,0,0,0,0,0]
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -10,13 +12,17 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	$RestartButtons/RelifeButton.text = "Relife for 10 coins("+str(snapped($RelifeTimer.time_left,0.00000001)).pad_decimals(2)+"s)"
 	pass
 	
 func show_message(text):
-	print('show_message!')
 	$Message.text = text
 	$Message.show()
 	$MessageTimer.start()
+	
+func hide_message():
+	$Message.hide()
+	$MessageTimer.stop()
 	
 func show_scores():
 	$Scores/ScoreLabel.show()
@@ -29,10 +35,14 @@ func update_score(score):
 	
 func update_best_score(score):
 	$Scores/BestScoreLabel.text = str('Best: '+str(score))
+	
+func update_coins(coins):
+	$Scores/Coins.text = str(coins)
+	
 
 func _on_message_timer_timeout():
-	$Message.hide()
-	emit_signal("back_to_menu")
+	#$Message.hide()
+	#emit_signal("back_to_menu")
 	pass # Replace with function body.
 
 
@@ -65,4 +75,19 @@ func _on_back_button_pressed():
 
 func _on_confirmation_dialog_confirmed():
 	emit_signal("back_to_menu")
+	pass # Replace with function body.
+
+
+func _on_restart_button_pressed():
+	emit_signal('restart')
+	pass # Replace with function body.
+
+
+func _on_relife_timer_timeout():
+	$RestartButtons/RelifeButton.disabled = true
+	pass # Replace with function body.
+
+
+func _on_relife_button_pressed():
+	emit_signal('relife')
 	pass # Replace with function body.

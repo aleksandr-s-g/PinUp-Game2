@@ -19,16 +19,23 @@ func init_game_relax():
 	game_relax = GameRelax.instantiate()
 	game_relax.connect("back_to_menu", _on_game_back_to_menu)
 	game_relax.connect("send_event", $Analitycs.send_event)
+	$HUD.connect("set_tester_info_visibility", game_relax._on_hud_set_tester_info_visibility)
+	game_relax.set_tester_visibility($HUD/TesterInfo.visible)
 	
 func init_game_race():
 	game_race = GameRace.instantiate()
 	game_race.connect("back_to_menu", _on_game_back_to_menu)
 	game_race.connect("send_event", $Analitycs.send_event)
+	game_race.connect('restart_race', _on_race_restart)
+	$HUD.connect("set_tester_info_visibility", game_race._on_hud_set_tester_info_visibility)
+	game_race.set_tester_visibility($HUD/TesterInfo.visible)
 	
 func init_game_mind():
 	game_mind = GameMind.instantiate()
 	game_mind.connect("back_to_menu", _on_game_back_to_menu)
 	game_mind.connect("send_event", $Analitycs.send_event)
+	$HUD.connect("set_tester_info_visibility", game_mind._on_hud_set_tester_info_visibility)
+	game_mind.set_tester_visibility($HUD/TesterInfo.visible)
 	
 func select_scene(new_scene):
 	#print(new_scene.name)
@@ -77,6 +84,11 @@ func _on_main_menu_start_button_pressed(mode):
 
 	pass # Replace with function body.
 	
+func _on_race_restart():
+		init_game_race()
+		select_scene(game_race)
+		
+		
 func _on_game_back_to_menu():
 	init_main_menu()
 	select_scene(main_menu)

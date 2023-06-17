@@ -1,7 +1,15 @@
-Sprite2D
 Label
-CanvasLayer
+Timer
+BoxContainer
 HBoxContainer
+Button
+GridContainer
+TextureRect
+Sprite2D
+Node2D
+Area2D
+CollisionShape2D
+CanvasLayer
 CheckBox
 VBoxContainer
 ItemList

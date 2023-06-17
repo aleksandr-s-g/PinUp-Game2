@@ -2,6 +2,7 @@ extends CanvasLayer
 signal start_game
 signal become_tester
 signal back_to_menu
+
 var tester_button_pressed_times = [0,0,0,0,0,0,0,0,0,0]
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,6 +26,9 @@ func update_tester_panel(text):
 
 func update_score(score):
 	$ScoreLabel.text = str(score)
+	
+func update_coins(coins):
+	$CoinLabel.text = str(coins)
 
 func _on_message_timer_timeout():
 	$Message.hide()
@@ -44,6 +48,7 @@ func _on_tester_button_pressed():
 	var last_clicks_lag = tester_button_pressed_times[9]- tester_button_pressed_times[0]
 	if last_clicks_lag < 2.0:
 		$TesterInfo.visible = !$TesterInfo.visible
+		print('last_clicks_lag')
 		tester_button_pressed_times = [0,0,0,0,0,0,0,0,0,0]
 		emit_signal("become_tester")
 	#print (tester_button_pressed_times)
